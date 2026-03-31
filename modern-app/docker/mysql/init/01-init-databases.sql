@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS secun_test;
+
+GRANT ALL PRIVILEGES ON secun_test.* TO 'secun'@'%';
+FLUSH PRIVILEGES;
