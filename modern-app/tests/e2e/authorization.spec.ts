@@ -12,18 +12,26 @@ test('shows module navigation for an authorized user', async ({ page }) => {
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible();
 
-  for (const label of [
-    'Dashboard',
-    'Clients',
-    'Equipment',
-    'Repairs',
-    'Stock',
-    'Users',
-    'Settings',
-    'Reports',
+  for (const item of [
+    { label: 'Dashboard', href: '/dashboard' },
+    { label: 'Clients', href: '/dashboard?module=clients' },
+    { label: 'Equipment', href: '/dashboard?module=equipment' },
+    { label: 'Repairs', href: '/dashboard?module=repairs' },
+    { label: 'Stock', href: '/dashboard?module=stock' },
+    { label: 'Users', href: '/dashboard?module=users' },
+    { label: 'Settings', href: '/dashboard?module=settings' },
+    { label: 'Reports', href: '/dashboard?module=reports' },
   ]) {
-    await expect(page.getByRole('link', { name: label })).toBeVisible();
+    await expect(page.getByRole('link', { name: item.label })).toHaveAttribute('href', item.href);
   }
+
+  await page.getByRole('link', { name: 'Users' }).click();
+  await expect(page).toHaveURL(/\/dashboard\?module=users$/);
+  await expect(page.getByRole('heading', { name: 'Users overview' })).toBeVisible();
+
+  await page.getByRole('link', { name: 'Reports' }).click();
+  await expect(page).toHaveURL(/\/dashboard\?module=reports$/);
+  await expect(page.getByRole('heading', { name: 'Reports overview' })).toBeVisible();
 
   await expect(page.getByRole('button', { name: 'Sign out' })).toBeVisible();
 });

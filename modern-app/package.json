@@ -15,9 +15,12 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:seed": "tsx prisma/seed.ts",
-    "storage:ensure": "tsx scripts/storage-ensure.ts",
-    "cpanel:build": "npm run build",
-    "cpanel:start": "npm run start"
+    "docker:up": "docker compose --env-file .env.docker up -d mysql adminer",
+    "docker:down": "docker compose --env-file .env.docker down",
+    "docker:logs": "docker compose --env-file .env.docker logs -f mysql adminer",
+    "storage:ensure": "tsx scripts/ensure-storage.mjs",
+    "cpanel:build": "node scripts/cpanel-build.mjs",
+    "cpanel:start": "node scripts/cpanel-start.mjs"
   },
   "dependencies": {
     "@prisma/client": "6.17.1",
